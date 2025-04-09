@@ -197,28 +197,18 @@ DS8=4978
 
 servo = Servomotor(12)
 photo = LDR(34, 0, 180)
-ledr = PWM(Pin(13, mode=Pin.OUT))
-ledb = PWM(Pin(17, mode=Pin.OUT))
-ledg = PWM(Pin(5, mode=Pin.OUT))
+led = Pin(13, Pin.OUT)
 buzzer = BUZZER(33)
 
 while True:
     servo.set_angle(int(photo.value()))
-    #print(int(photo.value()))
+    print(int(photo.value()))
     sleep(0.1)
-    if photo.read() < 2000:
-        x = int(photo.read()/2000*1023)
-        ledr.duty(x)
-        ledb.duty(x)
-        ledg.duty(x)
-        #print(x)
-        buzzer.stop()
-    else:
-        ledr.duty(1023)
-        ledb.duty(0)
-        ledg.duty(0)
+    if(photo.value()<20):
+        led.value(1)
         buzzer.play_note(C8)
-        
-    
+    else:
+        led.value(0)
+        buzzer.stop()
     
 
